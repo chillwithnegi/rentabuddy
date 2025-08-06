@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-A-Buddy - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(45deg, #7dd3fc, #f9a8d4, #f97316);
+            background-size: 400%;
+            animation: gradientBG 10s ease infinite;
+            font-family: 'Poppins', sans-serif;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.7);
+        }
+        .btn-glow:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+        }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            border-radius: 50%;
+        }
+        .btn-glow:active::after {
+            transform: translate(-50%, -50%) scale(1);
+            transition: transform 0.3s ease;
+        }
+        h1, h2 {
+            font-family: 'Comfortaa', cursive;
+        }
+        .rules-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1rem;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.7);
+            padding: 2rem;
+        }
+        .rules-section li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+        .rules-section li::before {
+            content: '🔒';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header with Home Button -->
+    <header class="text-center py-8">
+        <div class="flex justify-between items-center mx-4 md:mx-20">
+            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-pink-500">
+                Rent-A-Buddy 💬
+            </h1>
+            <a href="index.html" class="btn-glow bg-sky-500 text-white font-bold py-2 px-4 rounded-full text-lg hover:bg-sky-600">
+                Home
+            </a>
+        </div>
+        <p class="mt-4 text-lg md:text-xl mx-4">
+            Find friendly buddies for company, conversations, and support. Connect with someone to share your day or explore new hobbies together!
+        </p>
+    </header>
+
+    <!-- Main Buttons -->
+    <section class="flex flex-col md:flex-row justify-center gap-6 py-10 mx-4">
+        <a href="find.html" class="btn-glow bg-sky-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-sky-600">
+            Find Buddies
+        </a>
+        <a href="#safety" class="btn-glow bg-orange-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-orange-600">
+            Safety & Terms
+        </a>
+    </section>
+
+    <!-- Safety Disclaimer -->
+    <section id="safety" class="py-10 mx-4 md:mx-20 bg-white/80 rounded-lg shadow-lg p-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 font-comfortaa">Safety & Terms</h2>
+        <p class="mt-4 text-lg">
+            We prioritize your safety with Google-level safety terms. All buddy profiles are thoroughly verified to ensure a secure and trustworthy experience.
+            Read our <a href="#" class="text-sky-500 underline">Terms & Conditions</a> for more details.
+        </p>
+    </section>
+
+    <!-- Professional Rules -->
+    <section class="rules-section mx-4 md:mx-20 my-10">
+        <h2 class="text-3xl font-bold text-center text-gray-800 font-comfortaa">Our Professional Rules</h2>
+        <ul class="mt-6 text-lg list-none">
+            <li>Our buddies are monitored by our team for 24 hours to ensure your safety and peace of mind.</li>
+            <li>We hire buddies only through strict legal procedures, including Aadhaar card, PAN card, and address verification.</li>
+            <li>You enjoy 100% privacy during your time with your buddy—your moments are yours alone!</li>
+            <li>After the booked session ends and payment is made, buddies are not permitted to continue roaming freely with clients to maintain safety protocols.</li>
+            <li>All interactions are overseen by our team to guarantee you’re 100% safe and in our care at all times.</li>
+        </ul>
+    </section>
+
+    <!-- Floating Become a Buddy Button -->
+    <a href="#" class="btn-glow bg-violet-500 text-white font-bold py-3 px-6 rounded-full text-lg hover:bg-violet-600 fixed bottom-6 right-6">
+        Become a Buddy
+    </a>
+</body>
+</html>
+
