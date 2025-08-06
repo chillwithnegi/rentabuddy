@@ -7,18 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Gradient background animation */
         body {
             background: linear-gradient(45deg, #7dd3fc, #f9a8d4, #f97316);
             background-size: 400%;
             animation: gradientBG 10s ease infinite;
+            font-family: 'Poppins', sans-serif;
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        /* Button hover and ripple effect */
         .btn-glow {
             position: relative;
             overflow: hidden;
@@ -45,20 +44,50 @@
             transform: translate(-50%, -50%) scale(1);
             transition: transform 0.3s ease;
         }
-        /* Playful typography */
         h1 {
             font-family: 'Comfortaa', cursive;
         }
+        /* Loader Styles */
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #7dd3fc;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px #7dd3fc, 0 0 40px #f97316;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="font-poppins text-gray-800">
+<body class="text-gray-800">
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
     <!-- Header with Home Button -->
     <header class="text-center py-8">
         <div class="flex justify-between items-center mx-4 md:mx-20">
             <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-pink-500">
                 Book Your Buddy 💬
             </h1>
-            <a href="index.html" class="btn-glow bg-sky-500 text-white font-bold py-2 px-4 rounded-full text-lg hover:bg-sky-600">
+            <a href="index.html" class="btn-glow bg-sky-500 text-white font-bold py-2 px-4 rounded-full text-lg hover:bg-sky-600" onclick="showLoader('index.html')">
                 Home
             </a>
         </div>
@@ -80,7 +109,9 @@
                 <label for="whatsapp" class="block text-sm font-medium">WhatsApp Number</label>
                 <input id="whatsapp" type="tel" class="w-full p-2 border rounded-md" placeholder="+91 9876543210" required>
             </div>
-            <button onclick="submitBooking()" class="btn-glow bg-orange-500 text-white py-3 px-6 rounded-full w-full font-bold">Book Now</button>
+            <button onclick="submitBooking()" class="btn-glow bg-orange-500 text-white py-3 px-6 rounded-full w-full font-bold">
+                Book Now
+            </button>
         </div>
         <p id="confirmation" class="hidden text-green-600 font-bold mt-4 text-center">Booking request sent! Check WhatsApp for confirmation.</p>
     </section>
@@ -100,6 +131,26 @@
                 alert('Please fill in all fields.');
             }
         }
+
+        // Loader Function
+        function showLoader(url) {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                if (url !== '#') window.location.href = url;
+            }, 1000);
+        }
+
+        // Add event listener to all links for loading effect
+        document.querySelectorAll('a').forEach(link => {
+            if (!link.href.includes('#')) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showLoader(link.href);
+                });
+            }
+        });
     </script>
 </body>
 </html>
