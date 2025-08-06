@@ -281,57 +281,59 @@
     </section>
 
     <!-- JavaScript for toggling description, star rating, and hover effect -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function toggleDescription(id) {
-                const desc = document.getElementById(id);
-                if (desc) {
-                    desc.classList.toggle('hidden');
-                }
-            }
+<script>
+    function toggleDescription(id) {
+        const desc = document.getElementById(id);
+        if (desc) {
+            desc.classList.toggle('hidden');
+        }
+    }
 
-            function rateBuddy(buddyId, event) {
-                const starContainer = event.currentTarget;
+    document.addEventListener('DOMContentLoaded', function () {
+        function rateBuddy(buddyId, event) {
+            const starContainer = event.currentTarget;
+            const stars = starContainer.getElementsByClassName('star');
+            const clickX = event.clientX - starContainer.getBoundingClientRect().left;
+            const starWidth = starContainer.offsetWidth / 5;
+            const rating = Math.min(5, Math.max(1, Math.ceil(clickX / starWidth) || 1));
+
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].classList.remove('filled');
+                if (i < rating) stars[i].classList.add('filled');
+            }
+        }
+
+        ['Sumit', 'Priya'].forEach(buddyId => {
+            const starContainer = document.getElementById(`starRating${buddyId}`);
+            if (starContainer) {
+                starContainer.addEventListener('click', function (event) {
+                    rateBuddy(buddyId, event);
+                });
                 const stars = starContainer.getElementsByClassName('star');
-                const clickX = event.clientX - starContainer.getBoundingClientRect().left;
-                const starWidth = starContainer.offsetWidth / 5;
-                const rating = Math.min(5, Math.max(1, Math.ceil(clickX / starWidth) || 1));
-
-                for (let i = 0; i < stars.length; i++) {
-                    stars[i].classList.remove('filled');
-                    if (i < rating) stars[i].classList.add('filled');
+                for (let star of stars) {
+                    star.addEventListener('mouseover', function () {
+                        const index = Array.from(stars).indexOf(this);
+                        for (let i = 0; i <= index; i++) {
+                            stars[i].classList.add('hover-filled');
+                        }
+                    });
+                    star.addEventListener('mouseout', function () {
+                        for (let s of stars) s.classList.remove('hover-filled');
+                    });
                 }
             }
-
-            ['Sumit', 'Priya'].forEach(buddyId => {
-                const starContainer = document.getElementById(`starRating${buddyId}`);
-                if (starContainer) {
-                    starContainer.addEventListener('click', function(event) {
-                        rateBuddy(buddyId, event);
-                    });
-                    const stars = starContainer.getElementsByClassName('star');
-                    for (let star of stars) {
-                        star.addEventListener('mouseover', function() {
-                            const index = Array.from(stars).indexOf(this);
-                            for (let i = 0; i <= index; i++) {
-                                stars[i].classList.add('hover-filled');
-                            }
-                        });
-                        star.addEventListener('mouseout', function() {
-                            for (let s of stars) s.classList.remove('hover-filled');
-                        });
-                    }
-                }
-            });
-
-            const fakeReviewsSumit = Array(100).fill().map(() => Math.floor(Math.random() * 2) + 4);
-            const fakeReviewsPriya = Array(100).fill().map(() => Math.floor(Math.random() * 2) + 4);
-            const avgSumit = (fakeReviewsSumit.reduce((sum, r) => sum + r, 0) / 100).toFixed(1);
-            const avgPriya = (fakeReviewsPriya.reduce((sum, r) => sum + r, 0) / 100).toFixed(1);
-            document.getElementById('averageRatingSumit').textContent = `${avgSumit} (100 reviews)`;
-            document.getElementById('averageRatingPriya').textContent = `${avgPriya} (100 reviews)`;
         });
-    </script>
+
+        const fakeReviewsSumit = Array(100).fill().map(() => Math.floor(Math.random() * 2) + 4);
+        const fakeReviewsPriya = Array(100).fill().map(() => Math.floor(Math.random() * 2) + 4);
+        const avgSumit = (fakeReviewsSumit.reduce((sum, r) => sum + r, 0) / 100).toFixed(1);
+        const avgPriya = (fakeReviewsPriya.reduce((sum, r) => sum + r, 0) / 100).toFixed(1);
+
+        document.getElementById('averageRatingSumit').textContent = `${avgSumit} (100 reviews)`;
+        document.getElementById('averageRatingPriya').textContent = `${avgPriya} (100 reviews)`;
+    });
+</script>
+
     <style>
         .star.hover-filled {
             color: #ffd700; /* Yellow on hover */
@@ -340,3 +342,4 @@
 </body>
 
 </html>
+
