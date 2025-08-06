@@ -64,40 +64,9 @@
             left: 0;
             top: 0;
         }
-        /* Loader Styles */
-        #loader {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .spinner {
-            border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #7dd3fc;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 20px #7dd3fc, 0 0 40px #f97316;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="text-gray-800">
-    <!-- Loader -->
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-
     <!-- Header with Home Button -->
     <header class="text-center py-8">
         <div class="flex justify-between items-center mx-4 md:mx-20">
@@ -115,7 +84,7 @@
 
     <!-- Main Buttons -->
     <section class="flex flex-col md:flex-row justify-center gap-6 py-10 mx-4">
-        <a href="find.html" class="btn-glow bg-sky-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-sky-600" onclick="showLoader('find.html')">
+        <a href="find.html" class="btn-glow bg-sky-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-sky-600">
             Find Buddies
         </a>
         <a href="#safety" class="btn-glow bg-orange-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-orange-600">
@@ -145,30 +114,8 @@
     </section>
 
     <!-- Floating Become a Buddy Button -->
-    <a href="#" class="btn-glow bg-violet-500 text-white font-bold py-3 px-6 rounded-full text-lg hover:bg-violet-600 fixed bottom-6 right-6" onclick="showLoader('#')">
+    <a href="#" class="btn-glow bg-violet-500 text-white font-bold py-3 px-6 rounded-full text-lg hover:bg-violet-600 fixed bottom-6 right-6">
         Become a Buddy
     </a>
-
-    <script>
-        // Loader Function
-        function showLoader(url) {
-            const loader = document.getElementById('loader');
-            loader.style.display = 'flex';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                if (url !== '#') window.location.href = url;
-            }, 1000);
-        }
-
-        // Add event listener to all links for loading effect
-        document.querySelectorAll('a').forEach(link => {
-            if (!link.href.includes('#')) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showLoader(link.href);
-                });
-            }
-        });
-    </script>
 </body>
 </html>
