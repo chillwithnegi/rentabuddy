@@ -55,6 +55,47 @@
         h1, h3 {
             font-family: 'Comfortaa', cursive;
         }
+        /* Header Hover Effect */
+        .header-title {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+        }
+        .header-title:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
+            color: #ff0000; /* Red on hover */
+        }
+        /* Review Modal Styles */
+        #reviewModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.7);
+            text-align: center;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff0000;
+        }
         /* Loader Styles */
         #loader {
             display: none;
@@ -89,14 +130,29 @@
         <div class="spinner"></div>
     </div>
 
+    <!-- Review Modal -->
+    <div id="reviewModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeReviewModal()">&times;</span>
+            <h3 class="text-xl font-bold font-comfortaa">Leave a Review</h3>
+            <p class="mt-2">For: <span id="reviewBuddyName"></span></p>
+            <select id="rating" class="w-full p-2 mt-4 border rounded-md">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+            <textarea id="comment" class="w-full p-2 mt-4 border rounded-md" placeholder="Write your review..." rows="4"></textarea>
+            <button onclick="submitReview()" class="btn-glow bg-violet-500 text-white py-2 px-4 rounded-full mt-4">Submit Review</button>
+        </div>
+    </div>
+
     <!-- Header with Home Button -->
     <header class="text-center py-8">
-        <div class="flex justify-between items-center mx-4 md:mx-20">
-            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-pink-500">
+        <div class="flex justify-center items-center mx-4 md:mx-20">
+            <a href="index.html" class="header-title text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-pink-500" onclick="showLoader('index.html')">
                 Find Your Buddy 💬
-            </h1>
-            <a href="index.html" class="btn-glow bg-sky-500 text-white font-bold py-2 px-4 rounded-full text-lg hover:bg-sky-600" onclick="showLoader('index.html')">
-                Home
             </a>
         </div>
     </header>
@@ -116,6 +172,7 @@
                 <button onclick="toggleDescription('desc1')" class="btn-glow bg-sky-500 text-white py-2 px-4 rounded-full mt-2">View More</button>
                 <p id="desc1" class="hidden mt-2">Sumit is a fun-loving individual who enjoys outdoor adventures and great conversations.</p>
                 <a href="rent.html" class="btn-glow bg-orange-500 text-white py-2 px-4 rounded-full mt-2 inline-block" onclick="showLoader('rent.html')">Rent for ₹79 / hour</a>
+                <button onclick="openReviewModal('Sumit Gupta')" class="btn-glow bg-violet-500 text-white py-2 px-4 rounded-full mt-2">Review</button>
                 <p class="text-red-600 font-bold mt-4">Note: All personal expenses of your buddy (transport, food, tickets) will be paid by you!</p>
             </div>
         </div>
@@ -132,16 +189,46 @@
                 <button onclick="toggleDescription('desc2')" class="btn-glow bg-sky-500 text-white py-2 px-4 rounded-full mt-2">View More</button>
                 <p id="desc2" class="hidden mt-2">Priya is a creative soul who loves deep conversations and artistic pursuits.</p>
                 <a href="rent.html" class="btn-glow bg-orange-500 text-white py-2 px-4 rounded-full mt-2 inline-block" onclick="showLoader('rent.html')">Rent for ₹79 / hour</a>
+                <button onclick="openReviewModal('Priya Mehra')" class="btn-glow bg-violet-500 text-white py-2 px-4 rounded-full mt-2">Review</button>
                 <p class="text-red-600 font-bold mt-4">Note: All personal expenses of your buddy (transport, food, tickets) will be paid by you!</p>
             </div>
         </div>
     </section>
 
-    <!-- JavaScript for toggling description -->
+    <!-- JavaScript for toggling description, review modal, and submission -->
     <script>
         function toggleDescription(id) {
             const desc = document.getElementById(id);
             desc.classList.toggle('hidden');
+        }
+
+        function openReviewModal(buddyName) {
+            const modal = document.getElementById('reviewModal');
+            const buddyNameElement = document.getElementById('reviewBuddyName');
+            buddyNameElement.textContent = buddyName;
+            modal.style.display = 'flex';
+        }
+
+        function closeReviewModal() {
+            const modal = document.getElementById('reviewModal');
+            modal.style.display = 'none';
+            document.getElementById('rating').value = '5';
+            document.getElementById('comment').value = '';
+        }
+
+        function submitReview() {
+            const buddyName = document.getElementById('reviewBuddyName').textContent;
+            const rating = document.getElementById('rating').value;
+            const comment = document.getElementById('comment').value;
+            const review = { buddyName, rating, comment, timestamp: new Date().toLocaleString() };
+
+            // Store review locally (e.g., in localStorage for now)
+            let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews.push(review);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+
+            alert(`Review submitted for ${buddyName}!\nRating: ${rating} stars\nComment: ${comment}`);
+            closeReviewModal();
         }
 
         // Loader Function
